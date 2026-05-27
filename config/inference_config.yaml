@@ -1,0 +1,48 @@
+# ====================== Inference Configuration ======================
+
+model:
+  name: "google/flan-t5-base"           # Should match the model you trained/fine-tuned
+  # name: "./outputs/models/flan-t5-cnn"   # Use this for local fine-tuned model
+  device: "cuda"                        # Options: cuda, cpu, mps
+  torch_dtype: "float16"                # float16 / bfloat16 / float32
+
+# ====================== Generation Parameters ======================
+generation:
+  max_length: 150
+  min_length: 40
+  num_beams: 4
+  length_penalty: 2.0
+  early_stopping: true
+  no_repeat_ngram_size: 3
+  temperature: 0.7                     # Lower = more deterministic
+  top_p: 0.9
+  top_k: 50
+  do_sample: false                     # Set true for creative sampling
+  num_return_sequences: 1
+
+# ====================== Input/Output Settings ======================
+input:
+  max_input_length: 1024
+  truncation: true
+  padding: "max_length"
+
+output:
+  skip_special_tokens: true
+  clean_up_tokenization_spaces: true
+
+# ====================== Performance Settings ======================
+performance:
+  batch_size: 8                        # For batched inference
+  num_workers: 4
+  pin_memory: true
+
+# ====================== Example Inputs ======================
+examples:
+  - "The full article text goes here for testing..."
+  - "Another sample article for summarization testing."
+
+# ====================== Post-processing ======================
+post_processing:
+  remove_bullets: true
+  strip_whitespace: true
+  min_summary_length: 30
